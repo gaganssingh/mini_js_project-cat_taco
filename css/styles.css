@@ -1,7 +1,7 @@
 :root {
-  --primary-color: #103554;
-  --secondary-color: #f8333c;
-  --dark-color: #303030;
+  --primary-color: #000000;
+  --secondary-color: #112920;
+  --dark-color: #656565;
   --white-color: #e7e7e7;
 }
 
@@ -10,11 +10,11 @@ body {
 }
 
 nav {
-  background-color: var(--dark-color);
+  background-color: var(--secondary-color);
 }
 
 footer {
-  background-color: var(--dark-color);
+  background-color: var(--secondary-color);
 }
 
 h1,
