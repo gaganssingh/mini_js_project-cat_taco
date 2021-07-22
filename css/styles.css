@@ -26,6 +26,10 @@ h6 {
   color: var(--primary-color);
 }
 
+.btn {
+  background-color: #3f594e;
+}
+
 footer {
   padding-right: 1rem;
 }
