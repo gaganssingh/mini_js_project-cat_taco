@@ -90,24 +90,109 @@
     <main class="flex-shrink-0">
       <div class="container py-4 px-5">
         <h2 class="border-1 border-bottom border-dark mt-5">
-          Code Review for APP NAME
+          Code Review for Cats &amp; Tacos
         </h2>
         <div class="row row-cols-1 row-cols-lg-2">
           <!-- Code Snippet -->
           <div class="col-lg-8">
             <pre class="line-numbers">
               <code class="language-javascript">
-                // Call Function
-                const helloWorld = () => {
-                  alert("Hello World");
+                // **************
+                // DOM SELECTORS
+                // **************
+                const submitBtn = document.getElementById("submitBtn");
+                const alert = document.getElementById("alert");
+                const alertMsg = document.getElementById("alertMsg");
+
+                // **************
+                // FUNCTIONS
+                // **************
+                // Show error alerts
+                const showErrorAlert = () => {
+                  alertHeading.innerText = "Are you forgetting something?";
+                  alertMsg.innerText =
+                    "Please enter some text in the input box above before pressing the button.";
+                  alert.classList.add("alert-danger");
+                  alert.classList.remove("invisible");
                 };
-                
+
+                // Reset all alerts: Alerts don't show up
+                const resetAlerts = () => {
+                  alert.classList.add("invisible");
+                  alert.classList.remove("alert-danger");
+                  alert.classList.remove("alert-primary");
+                  alert.classList.remove("alert-warning");
+                  alertMsg.classList.remove("display-6");
+                  alertMsg.innerText = "";
+                  alertHeading.innerText = "";
+                };
+
+                // Reverse the string
+                const reverseString = (userInput) => {
+                  return userInput.split("").reverse().join("");
+                };
+
+                // Display the reversed string in the DOM
+                const displayResult = (isPalindrome, string) => {
+                  if (isPalindrome) {
+                    alertHeading.innerText = "You are right!";
+                    alertMsg.innerText = `"${string}" is a palindrome.`;
+                    alert.classList.add("alert-primary");
+                  } else {
+                    alertHeading.innerText = "Oh no!";
+                    alertMsg.innerText = `"${string}" is NOT a palindrome.`;
+                    alert.classList.add("alert-warning");
+                  }
+                  alertMsg.classList.add("display-6");
+                  alert.classList.remove("invisible");
+                };
+
+                // Capture user's input, validate it,
+                // check if it's a palindrome, and display the results
+                const getUserInput = () => {
+                  // Clear previously shown alerts
+                  resetAlerts();
+
+                  // Get user's input
+                  const userString = document.getElementById("userString");
+
+                  // Check if a valid string was entered
+                  if (!userString.value.trim() || userString.value.length === 0) {
+                    // If invalid string was entered, display an alert message
+                    showErrorAlert();
+                  } else {
+                    // If valid string was entered:
+                    // Strip the string of any special characters
+                    const regExp = /[\W_]/g;
+                    const strippedUserString = userString.value.replace(regExp, "");
+
+                    // Reverse the string using a helper function
+                    const reversedString = reverseString(strippedUserString);
+
+                    // Check if the reversed string === the string entered by the user
+                    // isPalindrome is true if the two strings are the same. Otherwise, its false
+                    const isPalindrome =
+                      strippedUserString.toLowerCase() === reversedString.toLowerCase();
+
+                    // Display the reversed string in the DOM
+                    displayResult(isPalindrome, userString.value);
+                  }
+
+                  // Reset the input to empty state for the user's next input
+                  userString.value = "";
+                };
+
+                // **************
+                // EVENT LISTENERS
+                // **************
+                submitBtn.addEventListener("click", getUserInput);
               </code>
             </pre>
           </div>
 
           <!-- Code Review & Description -->
           <div class="col-lg-4">
+            <!-- Info Alert -->
             <div class="alert alert-info">
               <h4 class="alert-heading">Note</h4>
               <hr />
@@ -116,29 +201,98 @@
                 see the full source code.
               </p>
             </div>
+            
             <!-- Code Reviews -->
             <div class="border-bottom border-2 my-3">
               <h5>Event Listener: submitBtn</h5>
               <p>
-                Listens to the click action by the user on the button, and
-                executes the getUserInput function in JavaScript.
+                Listens to the click action by the user on the "Check Now"
+                button, and executes the getUserInput function in JavaScript.
               </p>
             </div>
             <!-- Code Reviews -->
             <div class="border-bottom border-2 my-3">
-              <h5>Function: submitBtn</h5>
+              <h5>Function: getUserInput</h5>
               <p>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugit,
-                corporis.
+                Captures the values entered by the user in the input field, and
+                passes it to other functions for processing and display.
               </p>
               <ul>
-                <li>Lorem ipsum dolor sit amet.</li>
-                <li>Lorem ipsum dolor sit amet.</li>
-                <li>Lorem ipsum dolor sit amet.</li>
+                <li>
+                  Clears any previous alerts using the resetAlerts function.
+                </li>
+                <li>
+                  Checks for valid input value; if input value is invalid, shows
+                  an alert, otherwise passes the value to the reverseString
+                  function that reverses the string.
+                </li>
+                <li>
+                  Captures the returned value from the reverseString function
+                  and passes it on to the displayResult function, which displays
+                  the final reversed string in the DOM
+                </li>
               </ul>
             </div>
-          </div>
-          <!--  -->
+            <!-- Code Reviews -->
+            <div class="border-bottom border-2 my-3">
+              <h5>Function: reverseString</h5>
+              <p>
+                Accepts a string and returns the reversed version of that
+                string.
+              </p>
+              <ul>
+                <li>
+                  Uses the array .split() method to split the string into individual array data points. E.g., the cat becomes ["c", "a", "t"].
+                </li>
+                <li>Reverses the array items in place using the .reverse() method. E.g., ["c", "a", "t"] becomes ["t", "a", "c"].</li>
+                <li>Joins all items of the array into one string using the .join() method. E.g., ["t", "a", "c"] becomes tac.</li>
+                <li>Returns the reversed string.</li>
+              </ul>
+            </div>
+            <!-- Code Review -->
+            <div class="border-bottom border-2 my-3">
+              <h5>Function: displayResult</h5>
+              <p>
+                Accepts the reversed, ready-to-display string and inserts it
+                into the DOM.
+              </p>
+              <ul>
+                <li>
+                  Hooks into the alert box's heading and paragraph nodes to
+                  display the reversed string and the result to the user.
+                </li>
+                <li>
+                  Removes the "invisible" class from the alert box, making it
+                  visible.
+                </li>
+                <li>
+                  Adds the "alert-primary" class to the alert box if the string is a palindrome, otherwise it adds the class "alert-warning" to the alert box.
+                </li>
+                <li>
+                  Adds the "display-6" class to the paragraph node of the alert
+                  box, which increases it's font size to large.
+                </li>
+              </ul>
+            </div>
+            <!-- Code Review -->
+            <div class="border-bottom border-2 my-3">
+              <h5>Helper Function: showErrorAlert</h5>
+              <p>
+                A Helper function that displays a red color alert box with error
+                information to the user.
+              </p>
+              <ul></ul>
+            </div>
+            <!-- Code Review -->
+            <div>
+              <h5>Helper Function: resetAlerts</h5>
+              <p>
+                This is another helper function that clears any previous alerts
+                from the DOM.
+              </p>
+              <ul></ul>
+            </div>
+            <!--  -->
         </div>
       </div>
     </main>
